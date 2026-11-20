@@ -1,0 +1,38 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# SQLite database and checkpoints
+chatbot.db
+chatbot.db-journal
+chatbot.db-wal
+chatbot.db-shm
+
+# Local FAISS vector index
+faiss_db/
+
+# Streamlit local state
+.streamlit/
+
+# Temporary and log files
+*.log
+*.tmp
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
