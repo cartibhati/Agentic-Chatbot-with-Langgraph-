@@ -2,6 +2,8 @@
 
 An advanced, production-grade conversational AI assistant powered by **LangGraph**, **Google Gemini**, and **Streamlit**. Built with tool orchestration, document RAG, persistent multi-thread SQLite checkpointing, and **Human-in-the-Loop (HITL)** approval workflows for sensitive actions.
 
+🌐 **Live Demo:** [https://agentic-chatbot-langgraph.embarko.app](https://agentic-chatbot-langgraph.embarko.app)
+
 ---
 
 ## 🌟 Key Features
@@ -157,3 +159,4 @@ To test the HITL approval flow:
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
+

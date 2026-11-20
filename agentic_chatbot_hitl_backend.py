@@ -35,25 +35,29 @@ embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001")
 
 
 
+# Directory for persistent data (uses Embarko DATA_DIR if present)
+DATA_DIR = os.getenv("DATA_DIR", ".")
+os.makedirs(DATA_DIR, exist_ok=True)
+FAISS_DB_PATH = os.path.join(DATA_DIR, "faiss_db")
+
+
 def ingest_rag_document(file_path):
-    DB_PATH = "faiss_db"
     loader = PyPDFLoader(file_path)
     docs = loader.load()
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     chunks = splitter.split_documents(docs)
     vector_store = FAISS.from_documents(chunks, embeddings)
-    vector_store.save_local(DB_PATH)
+    vector_store.save_local(FAISS_DB_PATH)
     
 
 
 def get_retriever():
-    DB_PATH = "faiss_db"
-    if not os.path.exists(DB_PATH) or not os.path.exists(os.path.join(DB_PATH, "index.faiss")):
+    if not os.path.exists(FAISS_DB_PATH) or not os.path.exists(os.path.join(FAISS_DB_PATH, "index.faiss")):
         return None
 
     try:
         vector_store = FAISS.load_local(
-            folder_path=DB_PATH,
+            folder_path=FAISS_DB_PATH,
             embeddings=embeddings,
             allow_dangerous_deserialization=True
         )
@@ -374,7 +378,7 @@ tool_node = ToolNode(tools)
 
 
 # Checkpointer
-conn = sqlite3.connect(database="chatbot.db", check_same_thread=False)
+conn = sqlite3.connect(database=os.path.join(DATA_DIR, "chatbot.db"), check_same_thread=False)
 checkpoint = SqliteSaver(conn)
 
 
